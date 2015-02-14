@@ -1,0 +1,162 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="A layout example that shows off a blog page with a list of posts.">
+
+    <title>Umfrage: Stadtentwicklung Limmattal</title>
+
+    
+
+
+<link rel="stylesheet" href="http://yui.yahooapis.com/pure/0.5.0/pure-min.css">
+
+
+
+<!--[if lte IE 8]>
+  
+    <link rel="stylesheet" href="http://yui.yahooapis.com/pure/0.5.0/grids-responsive-old-ie-min.css">
+  
+<![endif]-->
+<!--[if gt IE 8]><!-->
+  
+    <link rel="stylesheet" href="http://yui.yahooapis.com/pure/0.5.0/grids-responsive-min.css">
+  
+<!--<![endif]-->
+
+
+
+
+
+  
+    <!--[if lte IE 8]>
+        <link rel="stylesheet" href="/static/css/layouts/blog-old-ie.css">
+    <![endif]-->
+    <!--[if gt IE 8]><!-->
+        <link rel="stylesheet" href="/static/css/layouts/blog.css">
+    <!--<![endif]-->
+  
+    <link href="/static/css/jquery.nouislider.css" rel="stylesheet">
+    <link href="/static/css/jquery.nouislider.pips.min.css" rel="stylesheet">
+
+    <script src="//code.jquery.com/jquery-1.11.2.min.js"></script> 
+    <script src="/static/js/jquery.nouislider.all.min.js"></script>
+
+    <script type="text/javascript">
+      goals = [
+       {
+        'key': 'natres',
+        'desc': 'F&ouml;rderung nat&uuml;rlicher Ressourcen'
+       },
+       {
+        'key': 'pubtrans',
+        'desc': 'F&ouml;rderung des &ouml;ffentlichen Verkehrs'
+       },
+       {
+        'key': 'habitat',
+        'desc': 'Steigerung der Lebensraumqualit&auml;t'
+       },
+       {
+        'key': 'housing',
+        'desc': 'Verbesserung der Siedlungskultur'
+       }
+      ];
+	</script>
+	<script type="text/javascript" src="/static/js/ahp.js"></script>
+	  
+	<script type="text/javascript">
+
+      $(document).ready(function () {
+
+      // append goals
+      for (var i = 0; i < goals.length; i++) {
+        for (var j = i + 1; j < goals.length; j++) {
+         $("#fields").append('<div class="pure-g">' +
+                             ' <div class="pure-u-1-3">' + goals[i].desc + '</div>' +
+                             '  <div class="pure-u-1-3">' +
+                             '   <div class="slider" id="' + goals[i].key + '_' + goals[j].key + '"></div>' +
+                             '  </div>' +
+                             ' <div class="pure-u-1-3" style="text-align: right">' + goals[j].desc + '</div>' +
+                             '</div>');
+        }
+      }
+	  });
+    </script>
+	<script type="text/javascript" src="/static/js/sliders.js"></script>
+
+</head>
+<body>
+
+
+
+
+
+
+
+<div id="layout" class="pure-g">
+    <div class="sidebar pure-u-1 pure-u-md-1-4">
+        <div class="header">
+            <h1 class="brand-title">Umfrage</h1>
+            <h2 class="brand-tagline">Stadtentwicklung Limmattal</h2>
+            <hr/>
+            <p>Noemi Neuenschwander</p>
+            <p>Eidgenössische Technische Hochschule Zürich</p>
+
+	<!--
+            <nav class="nav">
+                <ul class="nav-list">
+                    <li class="nav-item">
+                        <a class="pure-button" href="http://purecss.io">Pure</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="pure-button" href="http://yuilibrary.com">YUI Library</a>
+                    </li>
+                </ul>
+            </nav>
+	-->
+        </div>
+    </div>
+
+    <div class="content pure-u-1 pure-u-md-3-4">
+        <div>
+            <!-- A wrapper for all the blog posts -->
+            <div class="posts">
+                <h1 class="content-subhead">Stadtentwicklung Schlieren &ndash; Dietikon</h1>
+
+                <!-- A single blog post -->
+                <section class="post">
+
+                    <div class="post-description">
+                         <form class="pure-form" action="/save/" method="get">
+                          <fieldset id="fields">
+                          </fieldset>
+                           <input type="submit" class="pure-button pure-button-primary" value="Submit">
+                         </form>
+                         <input type="button" value="debug" onclick="debug()"/>
+                         <div id="debug"></div>
+                    </div>
+                </section>
+            </div>
+
+
+            <div class="footer">
+                <div class="pure-menu pure-menu-horizontal pure-menu-open">
+                    <ul>
+                        <li><a href="http://purecss.io/">About</a></li>
+                        <li><a href="http://twitter.com/yuilibrary/">Twitter</a></li>
+                        <li><a href="http://github.com/yahoo/pure/">GitHub</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+
+</body>
+</html>

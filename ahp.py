@@ -15,6 +15,10 @@ app = Flask(__name__)
 def index():
 	return render_template('index.html')
 
+@app.route('/')
+def goals():
+    return render_template('goals.html')
+
 @app.route('/survey/')
 def survey():
 	return render_template('survey.html')
