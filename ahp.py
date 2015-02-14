@@ -1,9 +1,10 @@
-#!/usr/bin/env python
+#/usr/bin/env python
 
 from flask import Flask
-from flask import render_template
-from flask import request
+from flask import render_template, request, redirect, url_for
 import sqlite3 as lite
+import time
+import datetime
 
 app = Flask(__name__)
 
@@ -15,20 +16,35 @@ def index():
 def survey():
 	return render_template('survey.html')
 
-@app.route('/done/')
-def done():
-#	save_record(**request.args)
-	#return "thank you"
-	s = ""
-	for key,value in request.args:
-		s += "%s = %s<br/>" % (key, value)
-	return s
+@app.route('/save/')
+def save():
+	# get survey values together
+	keys = ["natres_pubtrans", "natres_habitat", "natres_housing"]
+	values = [ float(request.args[key]) for key in keys ]
+	
+	# ip address
+	keys.append("remote_addr")
+	values.append(request.remote_addr)
 
-def save_record(**fields):
+	# timestamp
+	keys.append("timestamp")
+	#values.append(int(time.time()))
+	values.append(datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S"))
+
+	# construct the sql string
+	sql = "INSERT INTO survey (" + ",".join(keys) + ") VALUES (" + ",".join(["?" for key in keys]) + ")"
+
+	# execute the insert query
 	con = lite.connect('db/survey.db')
 	with con:
 		cur = con.cursor()
-		cur.execute("INSERT INTO survey (natres_pubtrans, natres_habitat, natres_housing) VALUES(?, ?, ?)", (float(fields["natres_pubtrans"]), float(fields["natres_habitat"]), float(fields["natres_housing"])))
+		cur.execute(sql, tuple(values))
+	
+	return redirect(url_for('thankyou'), 302)
+
+@app.route('/thankyou/')
+def thankyou():
+	return render_template('thankyou.html')
 
 if __name__ == '__main__':
 	app.debug = True
