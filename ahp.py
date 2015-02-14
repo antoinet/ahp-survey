@@ -15,13 +15,29 @@ app = Flask(__name__)
 def index():
 	return render_template('index.html')
 
-@app.route('/')
+@app.route('/goals/')
 def goals():
     return render_template('goals.html')
 
-@app.route('/survey/')
-def survey():
-	return render_template('survey.html')
+@app.route('/natres/')
+def natres():
+	return render_template('natres.html')
+
+@app.route('/pubtrans/')
+def pubtrans():
+    return render_template('pubtrans.html')
+
+@app.route('/lifequality/')
+def lifequality():
+    return render_template('lifequality.html')
+
+@app.route('/housing/')
+def housing():
+    return render_template('housing.html')
+
+@app.route('/recreation/')
+def recreation():
+    return render_template('recreation.html')
 
 @app.route('/save/')
 def save():

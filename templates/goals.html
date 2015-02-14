@@ -54,13 +54,17 @@
         'desc': 'F&ouml;rderung des &ouml;ffentlichen Verkehrs'
        },
        {
-        'key': 'habitat',
+        'key': 'lifequality',
         'desc': 'Steigerung der Lebensraumqualit&auml;t'
        },
        {
         'key': 'housing',
         'desc': 'Verbesserung der Siedlungskultur'
-       }
+       },
+	   {
+		   'key': 'recreation',
+		   'desc': 'Optimierung der Naherholungspotentiale'
+	   }
       ];
 	</script>
 	<script type="text/javascript" src="/static/js/ahp.js"></script>
@@ -78,7 +82,8 @@
                              '   <div class="slider" id="' + goals[i].key + '_' + goals[j].key + '"></div>' +
                              '  </div>' +
                              ' <div class="pure-u-1-3" style="text-align: right">' + goals[j].desc + '</div>' +
-                             '</div>');
+                             '</div>' + 
+		                     '<div class="pure-g" style="height: 25px"></div>');
         }
       }
 	  });
@@ -123,6 +128,8 @@
             <!-- A wrapper for all the blog posts -->
             <div class="posts">
                 <h1 class="content-subhead">Stadtentwicklung Schlieren &ndash; Dietikon</h1>
+				<h1>Gegenüberstellung der politischen Ziele</h1>
+				<p>[TODO: Erklärungstext] Schieben Sie den Regler...</p>
 
                 <!-- A single blog post -->
                 <section class="post">
