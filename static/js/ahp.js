@@ -128,3 +128,15 @@ var table = $('<table border="1"></table>');
    $('#debug').empty().append(get_matrix());
   }
   
+  function validate() {
+      populate_matrix();
+      normalize_matrix();
+      compute_weights();
+      compute_consistency_vector();
+      compute_consistency_ratio();
+	  if (consistency_ratio > 0.1) {
+		  alert("Bitte überprüfen Sie Ihre Eingabe");
+		  return false;
+	  }
+  }
+  
