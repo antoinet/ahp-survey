@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 
-from flask import Flask, request, render_template, url_for, redirect, session
+from flask import Flask, request, render_template, url_for, redirect, session, make_response
 import sqlite3 as lite
 import time
 import datetime
@@ -8,6 +8,8 @@ import random
 import string
 from utils import *
 import definitions
+import csv
+import StringIO
 
 app = Flask(__name__)
 app.secret_key = '\xdfS\x03D\xe0\x93~\x0bo\x82\\\xde\xe6\xaa\x02\xd3\xcdz\xcdg\xc9\xd1r\x92'
@@ -84,6 +86,36 @@ def confirm():
 def thankyou():
     return render_template('thankyou.html')
 
+@app.route('/dump/')
+def dump():
+    con = lite.connect('db/survey.db')
+    dict = {}
+    with con:
+        for table in ['goals', 'natres', 'pubtrans', 'lifequality', 'housing', 'recreation']:
+            cur = con.cursor()
+            cur.execute("SELECT * FROM %s" % table)
+            dict[table] = {'headers': [i[0] for i in cur.description], 'values': cur.fetchall()}
+    return render_template('dump.html', results=dict)
+
+@app.route('/export/')
+def export():
+    table = request.args.get('table')
+    if table in ['goals', 'natres', 'pubtrans', 'lifequality', 'housing', 'recreation']:
+        con = lite.connect('db/survey.db')
+        with con:
+            cur = con.cursor()
+            cur.execute("SELECT * FROM %s" % table)
+            si = StringIO.StringIO()
+            csvwriter = csv.writer(si)
+            si.write('#')
+            csvwriter.writerow([i[0] for i in cur.description]) # write headers
+            csvwriter.writerows(cur)
+            output = make_response(si.getvalue())
+            output.headers['Content-Disposition'] = "attachment; filename=%s.csv" % (table + '_' + datetime.datetime.now().strftime("%Y%m%d%H%M%S"))
+            output.headers['Content-type'] = "text/csv"
+            return output
+    return render_template('export.html')
+
 def save(table, fields):
     # convert values to float, default to -1 if value not existant
     keys = generate_pairs('_', *fields)
@@ -105,8 +137,6 @@ def save(table, fields):
     # construct the sql string
     #sql = "INSERT INTO %s (%s) VALUES (%s)" % (table, ','.join(keys), ','.join(['?' for key in keys]))
     sql = "INSERT OR REPLACE INTO %s (id, %s) VALUES ((SELECT id from %s WHERE session_id = '%s'), %s)" % (table, ','.join(keys), table, session['sid'], ','.join(['?' for key in keys]))
-    
-    print sql
     
     # execute the insert query
     con = lite.connect('db/survey.db')

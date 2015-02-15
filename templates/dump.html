@@ -1,0 +1,28 @@
+<!doctype html>
+ <head>
+	 <title>Survey dump</title>
+	 <style type="text/css">
+	 body { font-family: Heletica, Arial, Verdana, sans-serif; }
+	 </style>
+ </head>
+ <body>
+	 {% for table in results.keys() %}
+	  <h3>{{ table }}</h3>
+	  <a href="{{ url_for('export') }}?table={{table}}">Download as CSV</a>
+	  <table>
+		<tr>
+			{% for h in results[table]['headers'] %}
+			<th>{{ h }}</th>
+			{% endfor %}
+		</tr>
+		{% for row in results[table]['values'] %}
+		<tr>
+			{% for col in row %}
+			<td>{{ col }}</td>
+			{% endfor %}
+		</tr>
+		{% endfor %}
+	  </table>
+	 {% endfor %}
+ </body>
+ </head>

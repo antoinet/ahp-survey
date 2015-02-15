@@ -1,0 +1,16 @@
+<!doctype html>
+ <head>
+	 <title>Survey export</title>
+	 <style type="text/css">
+	 body { font-family: Heletica, Arial, Verdana, sans-serif; }
+	 </style>
+ </head>
+ <body>
+	 <h3>Download CSV files</h3>
+	 <ul>
+		 {% for table in ['goals', 'natres', 'pubtrans', 'lifequality', 'housing', 'recreation'] %}
+		 <li><a href="{{ url_for('export') }}?table={{ table }}">{{ table }}</a></li>
+		 {% endfor %}
+	 </ul>
+ </body>
+ </head>
