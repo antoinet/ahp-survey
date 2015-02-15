@@ -135,7 +135,7 @@ var table = $('<table border="1"></table>');
       compute_consistency_vector();
       compute_consistency_ratio();
 	  if (consistency_ratio > 0.1) {
-		  alert("Bitte überprüfen Sie Ihre Eingabe");
+		  alert("Bitte überprüfen sie ihre Eingabe, die gewählte Kombination ist nicht ausreichend konsistent.");
 		  return false;
 	  }
   }
