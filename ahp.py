@@ -95,7 +95,8 @@ def save(table, fields):
     values.append(session['sid'])
     
     # construct the sql string
-    sql = "INSERT INTO %s (%s) VALUES (%s)" % (table, ','.join(keys), ','.join(['?' for key in keys]))
+    #sql = "INSERT INTO %s (%s) VALUES (%s)" % (table, ','.join(keys), ','.join(['?' for key in keys]))
+    sql = "INSERT OR REPLACE INTO %s (id, %s) VALUES ((SELECT id from %s WHERE session_id = '%s'), %s)" % (table, ','.join(keys), table, session['sid'], ','.join(['?' for key in keys]))
     
     print sql
     
