@@ -18,6 +18,7 @@ def init_session():
     if not 'sid' in session:
         sid = generate_random_string(32)
         session['sid'] = sid
+    print session['sid']
 
 @app.route('/')
 def index():
@@ -67,13 +68,20 @@ def housing():
 def recreation():
     if request.method == 'POST':
         save('recreation', definitions.recreation)
-        return redirect(url_for('thankyou'), 302)
+        return redirect(url_for('confirm'), 302)
     else:
         return render_template('recreation.html')
 
+@app.route('/confirm/', methods=['GET', 'POST'])
+def confirm():
+    if request.method == 'POST':
+        session.pop('sid', None)
+        return redirect(url_for('thankyou'), 302)
+    else:
+        return render_template('confirm.html')
+
 @app.route('/thankyou/')
 def thankyou():
-    session.pop('sid', None)
     return render_template('thankyou.html')
 
 def save(table, fields):
