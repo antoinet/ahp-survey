@@ -39,3 +39,10 @@ $(document).ready(function () {
    filter: function(value, type) { return 0; }
  });
 });
+
+
+function reset_sliders() {
+  if (confirm('Wollen Sie wirklich alle Regler zurücksetzen?')) {
+    $('.slider').val(1);
+  }
+}
