@@ -36,7 +36,16 @@ $(document).ready(function () {
    mode: 'positions',
    values: [0, 6.25, 12.5, 18.75, 25, 31.25, 37.25, 43.75, 50, 56.25, 62.5, 68.75, 75, 81.25, 87.5, 93.75, 100],
    density: 8,
-   filter: function(value, type) { return 0; }
+   format: {
+     to: function() { return ''; }
+   },
+   filter: function(value, type) {
+     if (value == 1) {
+       return 2;
+     } else {
+       return 0;
+     }
+   }
  });
 });
 
