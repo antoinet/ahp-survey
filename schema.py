@@ -22,4 +22,19 @@ with con:
         print sql
         cur.execute(sql)
 
+    sql2 = """CREATE TABLE persinfo (
+       id INTEGER NOT NULL PRIMARY KEY,
+       remote_addr VARCHAR(255),
+       timestamp DATETIME,
+       session_id VARCHAR(255),
+       sex VARCHAR(255),
+       yearofbirth VARCHAR(255),
+       formerexperience VARCHAR(255),
+       reference VARCHAR(255),
+       profession VARCHAR(255),
+       difficulty VARCHAR(255)
+      );"""
+    print sql2
+    cur.execute(sql2)
+
 print "done."

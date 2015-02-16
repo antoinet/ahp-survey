@@ -70,9 +70,31 @@ def housing():
 def recreation():
     if request.method == 'POST':
         save('recreation', definitions.recreation)
-        return redirect(url_for('confirm'), 302)
+        return redirect(url_for('persinfo'), 302)
     else:
         return render_template('recreation.html')
+
+@app.route('/persinfo/', methods=['GET', 'POST'])
+def persinfo():
+    if request.method == 'POST':
+        session_id = session['sid']
+        remote_addr = request.remote_addr
+        timestamp = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+        sex = request.form.get('sex')
+        yearofbirth = request.form.get('yearofbirth')
+        formerexperience = request.form.get('formerexperience')
+        reference = request.form.get('reference')
+        profession = request.form.get('profession')
+        difficulty = request.form.get('difficulty')
+        sql = "INSERT OR REPLACE INTO persinfo (id, remote_addr, timestamp, session_id, sex, yearofbirth, formerexperience, reference, profession, difficulty) VALUES((SELECT id FROM persinfo WHERE session_id='%s'), ?, ?, ?, ?, ?, ?, ?, ?, ?)" %  session_id
+        con = lite.connect('db/survey.db')
+        with con:
+            cur = con.cursor()
+            cur.execute(sql, (remote_addr, timestamp, session_id, sex, yearofbirth, formerexperience, reference, profession, difficulty))
+        return redirect(url_for('confirm'), 302)
+    else:
+        return render_template('persinfo.html')
+
 
 @app.route('/confirm/', methods=['GET', 'POST'])
 def confirm():
@@ -91,7 +113,7 @@ def dump():
     con = lite.connect('db/survey.db')
     dict = {}
     with con:
-        for table in ['goals', 'natres', 'pubtrans', 'lifequality', 'housing', 'recreation']:
+        for table in ['goals', 'natres', 'pubtrans', 'lifequality', 'housing', 'recreation', 'persinfo']:
             cur = con.cursor()
             cur.execute("SELECT * FROM %s" % table)
             dict[table] = {'headers': [i[0] for i in cur.description], 'values': cur.fetchall()}
@@ -100,7 +122,7 @@ def dump():
 @app.route('/export/')
 def export():
     table = request.args.get('table')
-    if table in ['goals', 'natres', 'pubtrans', 'lifequality', 'housing', 'recreation']:
+    if table in ['goals', 'natres', 'pubtrans', 'lifequality', 'housing', 'recreation', 'persinfo']:
         con = lite.connect('db/survey.db')
         with con:
             cur = con.cursor()
